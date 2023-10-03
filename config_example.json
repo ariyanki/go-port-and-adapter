@@ -1,0 +1,23 @@
+{
+	"port": "7777",
+	"jwtSign": "secret",
+	"database": {
+		"mysql": {
+			"driver": "mysql",
+			"host": "localhost",
+			"user": "root",
+			"password": "",
+			"db_name": "go-port-and-adapter",
+			"port": 3306,
+			"pool": {
+				"maxOpenConns": 100,
+				"maxIdleConns": 10,
+				"maxLifetime": 300
+			}
+		}
+	},
+	"logdir": "log",
+	"log_identifier": "go-port-and-adapter",
+	"log_max_age": 15,
+	"debug": true
+}
