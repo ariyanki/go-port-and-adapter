@@ -1,11 +1,11 @@
-package domain
+package handler
 
 import (
 	"go-port-and-adapter/ports/domain/dto"
 )
 
-// Domain is inbound port
-type IUserDomain interface {
+// Handler is inbound port
+type IUserHandler interface {
 	//CreateUser insert new data
 	CreateUser(user dto.CreateUserDto) error
 

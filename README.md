@@ -5,4 +5,10 @@
 3. Run Internal API, run `go run app/api/intl/main.go`
 4. API Url, {hostname}:{port}/api/v1/{module}
 
-![Image result for hexagonal architecture software](https://herbertograca.files.wordpress.com/2017/03/hexagonal-arch-4-ports-adapters2.png?w=708)
+
+Swagger:
+https://github.com/swaggo/echo-swagger
+
+Update Swagger:
+install https://github.com/swaggo/swag
+swag init -g app/http/main.go

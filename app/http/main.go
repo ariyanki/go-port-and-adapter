@@ -13,7 +13,17 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
+	"github.com/swaggo/echo-swagger"
+
+	_ "go-port-and-adapter/docs"
 )
+
+// @title Swagger Identity and Access Management API
+// @version 1.0
+// @description This is a Identity and Access Management API server.
+
+// @host localhost:7777
+// @BasePath /api/v1
 
 func main() {
 
@@ -38,6 +48,8 @@ func main() {
 	}))
 	// Handler for putting app request and response timestamp. This used for get elapsed time
 	e.Use(ServiceRequestTime)
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	routes.API(e)
 

@@ -5,12 +5,12 @@ import (
 	"net/http"
 
 	"go-port-and-adapter/helpers/validator"
-	domainDto "go-port-and-adapter/ports/domain/dto"
+	handlerDto "go-port-and-adapter/ports/domain/dto"
 
 	"github.com/labstack/echo/v4"
 )
 
-func (controller *UserController) CreateUser(c echo.Context) error {
+func (endpoint *UserEndpoint) CreateUser(c echo.Context) error {
 	createRequest := new(CreateUserRequest)
 
 	if err := c.Bind(createRequest); err != nil {
@@ -21,12 +21,12 @@ func (controller *UserController) CreateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	user := domainDto.CreateUserDto{
+	user := handlerDto.CreateUserDto{
 		Username:  createRequest.Username,
 		Password: createRequest.Password,
 	}
 
-	if err := controller.userDomain.CreateUser(user); err != nil {
+	if err := endpoint.userHandler.CreateUser(user); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err)
 	}
 

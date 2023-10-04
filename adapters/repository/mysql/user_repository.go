@@ -18,15 +18,21 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	}
 }
 
-func (db *UserRepository) CreateUser(user dto.CreateUserDto) error {
+func (db *UserRepository) CreateUser(user dto.UserDto) error {
 	if err := db.Create(&user).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func (db *UserRepository) ReadData(ID string) (dto.UserDto, error) {
+func (db *UserRepository) GetUserByID(ID string) (dto.UserDto, error) {
 	var user dto.UserDto
 	db.Where("id = ?", ID).Find(&user)
+	return user, nil
+}
+
+func (db *UserRepository) GetUserByUsername(username string) (dto.UserDto, error) {
+	var user dto.UserDto
+	db.Where("username = ?", username).Find(&user)
 	return user, nil
 }

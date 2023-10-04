@@ -3,8 +3,12 @@ package routes
 import (
 	"go-port-and-adapter/helpers/config"
 
-	userController "go-port-and-adapter/app/http/api/v1/user"
-	"go-port-and-adapter/domain"
+	authEndpoint "go-port-and-adapter/app/http/api/v1/endpoints/auth"
+	userEndpoint "go-port-and-adapter/app/http/api/v1/endpoints/user"
+	
+	authHandler "go-port-and-adapter/domain/entities/auth"
+	userHandler "go-port-and-adapter/domain/entities/user"
+
 	repository "go-port-and-adapter/adapters/repository/mysql"
 
 	"github.com/labstack/echo/v4"
@@ -16,12 +20,17 @@ func API(e *echo.Echo) {
 	db := config.DB
 	userRepository := repository.NewUserRepository(db)
 
-	// Init Domain
-	userDomain := domain.NewUserDomain(userRepository)
+	// Init Handler
+	userHandler := userHandler.New(userRepository)
+	authHandler := authHandler.New(userRepository)
 
-	// Init Controller
-	userController := userController.New(userDomain)
+	// Init Endpoint
+	authEndpoint := authEndpoint.New(authHandler)
+	auth := e.Group("/api/v1/auth")
+	auth.POST("", authEndpoint.SignIn)
+	
+	userEndpoint := userEndpoint.New(userHandler)
 	user := e.Group("/api/v1/user")
-	user.POST("", userController.CreateUser)
-	user.GET("/:id", userController.ReadData)
+	user.POST("", userEndpoint.CreateUser)
+	user.GET("/:id", userEndpoint.ReadData)
 }

@@ -7,10 +7,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (controller *UserController) ReadData(c echo.Context) error {
+func (endpoint *UserEndpoint) ReadData(c echo.Context) error {
 	id := c.Param("id")
 
-	user, err := controller.userDomain.ReadData(id)
+	user, err := endpoint.userHandler.ReadData(id)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err)
 	}
