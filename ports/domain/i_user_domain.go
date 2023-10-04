@@ -5,7 +5,7 @@ import (
 )
 
 // Domain is inbound port
-type UserDomain interface {
+type IUserDomain interface {
 	//CreateUser insert new data
 	CreateUser(user dto.CreateUserDto) error
 

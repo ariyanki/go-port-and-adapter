@@ -5,10 +5,10 @@ import (
 )
 
 type UserController struct {
-	userDomain domainPort.UserDomain
+	userDomain domainPort.IUserDomain
 }
 
-func New(userDomain domainPort.UserDomain) *UserController {
+func New(userDomain domainPort.IUserDomain) *UserController {
 	return &UserController{
 		userDomain,
 	}

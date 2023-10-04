@@ -10,11 +10,11 @@ import (
 
 type (
 	userDomain struct {
-		userRepository repositoryPort.UserRepository
+		userRepository repositoryPort.IUserRepository
 	}
 )
 
-func NewUserDomain(userRepository repositoryPort.UserRepository) domainPort.UserDomain {
+func NewUserDomain(userRepository repositoryPort.IUserRepository) domainPort.IUserDomain {
 	return &userDomain{
 		userRepository,
 	}
