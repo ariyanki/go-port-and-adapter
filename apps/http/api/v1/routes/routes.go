@@ -3,11 +3,11 @@ package routes
 import (
 	"go-port-and-adapter/helpers/config"
 
-	authEndpoint "go-port-and-adapter/app/http/api/v1/endpoints/auth"
-	userEndpoint "go-port-and-adapter/app/http/api/v1/endpoints/user"
+	authEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/auth"
+	userEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/user"
 	
-	authHandler "go-port-and-adapter/domain/entities/auth"
-	userHandler "go-port-and-adapter/domain/entities/user"
+	authHandler "go-port-and-adapter/domains/entities/auth"
+	userHandler "go-port-and-adapter/domains/entities/user"
 
 	repository "go-port-and-adapter/adapters/repository/mysql"
 

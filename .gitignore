@@ -7,8 +7,8 @@
 /.scannerwork/
 /coverage.out
 /report.json
-/log/access_log*
-/log/app_log*
+/logs/access_log*
+/logs/app_log*
 /go-port-and-adapter
 Dockerfile
 kubestaging*

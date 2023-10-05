@@ -16,7 +16,7 @@
 			}
 		}
 	},
-	"logdir": "log",
+	"logdir": "logs",
 	"log_identifier": "go-port-and-adapter",
 	"log_max_age": 15,
 	"debug": true

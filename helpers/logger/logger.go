@@ -42,7 +42,7 @@ func init() {
 		} else {
 			dir, _ = os.Getwd()
 		}
-		logdir = dir + "/log"
+		logdir = dir + "/logs"
 	}
 
 	if logMaxAge < 1 {

@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"time"
 
-	"go-port-and-adapter/app/http/api/v1/routes"
+	"go-port-and-adapter/apps/http/api/v1/routes"
 	"go-port-and-adapter/helpers/logger"
 
 	"github.com/labstack/echo/v4"
