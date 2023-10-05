@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	
 	handlerDto "go-port-and-adapter/ports/domain/dto"
+	"go-port-and-adapter/helpers/validator"
 )
 
 // @Summary      Sign In
@@ -16,6 +17,14 @@ import (
 // @Router /auth/signin [post]
 func (endpoint *AuthEndpoint) SignIn(c echo.Context) error {
 	signInRequest := new(SignInRequest)
+
+	if err := c.Bind(signInRequest); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, err)
+	}
+
+	if err := validator.GetValidator().Struct(signInRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
 
 	signInHandlerRequest := handlerDto.SignInRequest{
 		Username:  signInRequest.Username,

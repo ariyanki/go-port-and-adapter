@@ -2,6 +2,8 @@ package auth
 
 import (
 	"time"
+	"crypto/sha256"
+	"encoding/hex"
 
 	handlerDto "go-port-and-adapter/ports/domain/dto"
 	domainError "go-port-and-adapter/ports/domain/constants/error"
@@ -11,7 +13,6 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func (s *authHandler) SignIn(signInRequest handlerDto.SignInRequest) (handlerDto.SignInResponse, error) {
@@ -23,8 +24,8 @@ func (s *authHandler) SignIn(signInRequest handlerDto.SignInRequest) (handlerDto
 	if user.Status != user_status.Active {
 		return handlerDto.SignInResponse{}, domainError.UserNotActive
 	}
-	
-	if !CheckPasswordHash(user.Password, user.Password) {
+
+	if GeneratePassword(signInRequest.Username, signInRequest.Password, user.PasswordSalt)!=user.Password {
 		return handlerDto.SignInResponse{}, domainError.InvalidUserNameOrPassword
 	}
 
@@ -51,12 +52,22 @@ func (s *authHandler) SignIn(signInRequest handlerDto.SignInRequest) (handlerDto
 	return response, err
 }
 
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 8)
-	return string(bytes), err
-}
+func GeneratePassword(username, password, salt string) string {
+	input := username + password + salt
 
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
+    // Create a new SHA-256 hash object
+    hasher := sha256.New()
+
+    // Write the string to the hash object
+    _, err := hasher.Write([]byte(input))
+    if err != nil {
+        return ""
+    }
+
+    // Get the hash sum as a byte slice
+    hashBytes := hasher.Sum(nil)
+
+    // Convert the hash bytes to a hexadecimal string
+    hashHex := hex.EncodeToString(hashBytes)
+	return hashHex
 }
