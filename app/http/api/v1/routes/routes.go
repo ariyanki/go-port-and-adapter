@@ -12,6 +12,7 @@ import (
 	repository "go-port-and-adapter/adapters/repository/mysql"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func API(e *echo.Echo) {
@@ -31,6 +32,6 @@ func API(e *echo.Echo) {
 	
 	userEndpoint := userEndpoint.New(userHandler)
 	user := e.Group("/api/v1/user")
-	user.POST("", userEndpoint.CreateUser)
-	user.GET("/:id", userEndpoint.ReadData)
+	user.POST("", userEndpoint.CreateUser, middleware.JWTWithConfig(config.JwtConfig))
+	user.GET("/:id", userEndpoint.ReadData, middleware.JWTWithConfig(config.JwtConfig))
 }

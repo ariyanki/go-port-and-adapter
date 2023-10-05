@@ -10,6 +10,7 @@ import (
 // @Summary      Create User
 // @Description  Create User
 // @Tags         user
+// @Param Authorization header string true "Authorization header"
 // @Param id   path int true "User ID"
 // @Success 200 {object} user.ReadDataResponseUser
 // @Router /user/{id} [get]

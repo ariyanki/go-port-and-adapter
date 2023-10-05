@@ -24,7 +24,7 @@ func (endpoint *AuthEndpoint) SignIn(c echo.Context) error {
 
 	signInHandlerResponse, err := endpoint.authHandler.SignIn(signInHandlerRequest)
 	if err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err)
+		return c.JSON(http.StatusUnauthorized, err.Error())
 	}
 
 	signInResponse := SignInResponse{

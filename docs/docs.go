@@ -52,6 +52,13 @@ const docTemplate = `{
                 "summary": "Create User",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Authorization header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Create User Request Body",
                         "name": "request",
                         "in": "body",
@@ -76,6 +83,13 @@ const docTemplate = `{
                 ],
                 "summary": "Create User",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "integer",
                         "description": "User ID",

@@ -13,6 +13,7 @@ import (
 // @Summary      Create User
 // @Description  Create User
 // @Tags         user
+// @Param Authorization header string true "Authorization header"
 // @Param request body user.CreateUserRequest true "Create User Request Body"
 // @Success 200
 // @Router /user [post]

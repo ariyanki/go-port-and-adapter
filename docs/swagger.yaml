@@ -63,6 +63,11 @@ paths:
     post:
       description: Create User
       parameters:
+      - description: Authorization header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Create User Request Body
         in: body
         name: request
@@ -79,6 +84,11 @@ paths:
     get:
       description: Create User
       parameters:
+      - description: Authorization header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: User ID
         in: path
         name: id
