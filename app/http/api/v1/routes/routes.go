@@ -26,7 +26,7 @@ func API(e *echo.Echo) {
 
 	// Init Endpoint
 	authEndpoint := authEndpoint.New(authHandler)
-	auth := e.Group("/api/v1/auth")
+	auth := e.Group("/api/v1/auth/signin")
 	auth.POST("", authEndpoint.SignIn)
 	
 	userEndpoint := userEndpoint.New(userHandler)

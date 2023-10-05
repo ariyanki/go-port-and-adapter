@@ -1,7 +1,9 @@
 package mysql
 
 import (
+
 	"go-port-and-adapter/ports/repository/dto"
+	repoError "go-port-and-adapter/ports/repository/constants/error"
 
 	"github.com/jinzhu/gorm"
 )
@@ -27,12 +29,16 @@ func (db *UserRepository) CreateUser(user dto.UserDto) error {
 
 func (db *UserRepository) GetUserByID(ID string) (dto.UserDto, error) {
 	var user dto.UserDto
-	db.Where("id = ?", ID).Find(&user)
+	if db.Where("id = ?", ID).Find(&user).RecordNotFound() {
+		return user, repoError.RecordNotFound
+	}
 	return user, nil
 }
 
 func (db *UserRepository) GetUserByUsername(username string) (dto.UserDto, error) {
 	var user dto.UserDto
-	db.Where("username = ?", username).Find(&user)
+	if db.Where("username = ?", username).Find(&user).RecordNotFound() {
+		return user, repoError.RecordNotFound
+	}
 	return user, nil
 }

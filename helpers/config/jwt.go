@@ -9,10 +9,7 @@ import (
 //JwtCustomClaims JwtCustomClaims
 type JwtCustomClaims struct {
 	ID       int    `json:"id"`
-	Username string `json:"username"`
-	RoleID   int    `json:"role_id"`
 	jwt.StandardClaims
-	IsAdmin bool `json:"is_admin"`
 }
 
 //JwtConfig JwtConfig

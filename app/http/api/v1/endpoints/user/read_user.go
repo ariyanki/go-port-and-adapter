@@ -7,6 +7,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// @Summary      Create User
+// @Description  Create User
+// @Tags         user
+// @Param id   path int true "User ID"
+// @Success 200 {object} user.ReadDataResponseUser
+// @Router /user/{id} [get]
 func (endpoint *UserEndpoint) ReadData(c echo.Context) error {
 	id := c.Param("id")
 

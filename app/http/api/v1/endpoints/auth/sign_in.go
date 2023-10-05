@@ -8,25 +8,30 @@ import (
 	handlerDto "go-port-and-adapter/ports/domain/dto"
 )
 
+// @Summary      Sign In
+// @Description  Sign In Account
+// @Tags         auth
+// @Param request body auth.SignInRequest true "SignIn Request Body"
+// @Success 200 {object} auth.SignInResponse
+// @Router /auth/signin [post]
 func (endpoint *AuthEndpoint) SignIn(c echo.Context) error {
-	apiRequest := new(SignInRequest)
+	signInRequest := new(SignInRequest)
 
-	signInRequest := handlerDto.SignInRequest{
-		Username:  apiRequest.Username,
-		Password: apiRequest.Password,
+	signInHandlerRequest := handlerDto.SignInRequest{
+		Username:  signInRequest.Username,
+		Password: signInRequest.Password,
 	}
 
-	signInResponse, err := endpoint.authHandler.SignIn(signInRequest)
+	signInHandlerResponse, err := endpoint.authHandler.SignIn(signInHandlerRequest)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err)
 	}
 
-	apiResponse := SignInResponse{
-		Username:  signInResponse.Username,
-		Password: signInResponse.Password,
+	signInResponse := SignInResponse{
+		Token:  signInHandlerResponse.Token,
 	}
 
-	return c.JSON(http.StatusOK, apiResponse)
+	return c.JSON(http.StatusOK, signInResponse)
 }
 
 type SignInRequest struct {
@@ -35,6 +40,5 @@ type SignInRequest struct {
 }
 
 type SignInResponse struct {
-	Username  string `json:"username"`
-	Password string `json:"password"`
+	Token  string `json:"token"`
 }

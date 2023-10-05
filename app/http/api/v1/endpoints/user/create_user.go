@@ -10,6 +10,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// @Summary      Create User
+// @Description  Create User
+// @Tags         user
+// @Param request body user.CreateUserRequest true "Create User Request Body"
+// @Success 200
+// @Router /user [post]
 func (endpoint *UserEndpoint) CreateUser(c echo.Context) error {
 	createRequest := new(CreateUserRequest)
 

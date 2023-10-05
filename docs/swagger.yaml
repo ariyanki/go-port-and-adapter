@@ -1,9 +1,95 @@
 basePath: /api/v1
+definitions:
+  auth.SignInRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  auth.SignInResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  user.CreateUserRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  user.ReadDataResponseUser:
+    properties:
+      id:
+        type: integer
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 host: localhost:7777
 info:
   contact: {}
   description: This is a Identity and Access Management API server.
   title: Swagger Identity and Access Management API
   version: "1.0"
-paths: {}
+paths:
+  /auth/signin:
+    post:
+      description: Sign In Account
+      parameters:
+      - description: SignIn Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignInRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.SignInResponse'
+      summary: Sign In
+      tags:
+      - auth
+  /user:
+    post:
+      description: Create User
+      parameters:
+      - description: Create User Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateUserRequest'
+      responses:
+        "200":
+          description: OK
+      summary: Create User
+      tags:
+      - user
+  /user/{id}:
+    get:
+      description: Create User
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.ReadDataResponseUser'
+      summary: Create User
+      tags:
+      - user
 swagger: "2.0"
