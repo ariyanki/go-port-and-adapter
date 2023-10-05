@@ -6,7 +6,7 @@ import (
 
 	"time"
 
-	"go-port-and-adapter/helpers/config"
+	"go-port-and-adapter/systems/config"
 
 	"os"
 	"strings"

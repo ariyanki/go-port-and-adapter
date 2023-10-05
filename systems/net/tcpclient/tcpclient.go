@@ -5,7 +5,7 @@ import (
 	"net"
 	"time"
 
-	"go-port-and-adapter/helpers/net/tcpclient/mock"
+	"go-port-and-adapter/systems/net/tcpclient/mock"
 
 	"github.com/spf13/viper"
 )

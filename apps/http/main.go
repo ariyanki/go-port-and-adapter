@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"go-port-and-adapter/apps/http/api/v1/routes"
-	"go-port-and-adapter/helpers/logger"
+	"go-port-and-adapter/systems/logger"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

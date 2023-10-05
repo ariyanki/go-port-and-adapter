@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"go-port-and-adapter/helpers/config"
+	"go-port-and-adapter/systems/config"
 
 	authEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/auth"
 	userEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/user"

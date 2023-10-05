@@ -4,7 +4,7 @@ package user
 import (
 	"net/http"
 
-	"go-port-and-adapter/helpers/validator"
+	"go-port-and-adapter/systems/validator"
 	handlerDto "go-port-and-adapter/ports/domain/dto"
 
 	"github.com/labstack/echo/v4"

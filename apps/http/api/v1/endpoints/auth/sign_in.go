@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	
 	handlerDto "go-port-and-adapter/ports/domain/dto"
-	"go-port-and-adapter/helpers/validator"
+	"go-port-and-adapter/systems/validator"
 )
 
 // @Summary      Sign In

@@ -2,14 +2,13 @@ package auth
 
 import (
 	"time"
-	"crypto/sha256"
-	"encoding/hex"
 
 	handlerDto "go-port-and-adapter/ports/domain/dto"
+	systemDto "go-port-and-adapter/ports/system/dto"
 	domainError "go-port-and-adapter/ports/domain/constants/error"
 	repoError "go-port-and-adapter/ports/repository/constants/error"
 	"go-port-and-adapter/ports/repository/constants/user_status"
-	"go-port-and-adapter/helpers/config"
+	"go-port-and-adapter/systems"
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
@@ -25,12 +24,12 @@ func (s *authHandler) SignIn(signInRequest handlerDto.SignInRequest) (handlerDto
 		return handlerDto.SignInResponse{}, domainError.UserNotActive
 	}
 
-	if GeneratePassword(signInRequest.Username, signInRequest.Password, user.PasswordSalt)!=user.Password {
+	if systems.GeneratePassword(signInRequest.Username, signInRequest.Password, user.PasswordSalt)!=user.Password {
 		return handlerDto.SignInResponse{}, domainError.InvalidUserNameOrPassword
 	}
 
 	// Set custom claims
-	claims := &config.JwtCustomClaims{
+	claims := &systemDto.JwtCustomClaims{
 		user.ID,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
@@ -50,24 +49,4 @@ func (s *authHandler) SignIn(signInRequest handlerDto.SignInRequest) (handlerDto
 		Token:  t,
 	}
 	return response, err
-}
-
-func GeneratePassword(username, password, salt string) string {
-	input := username + password + salt
-
-    // Create a new SHA-256 hash object
-    hasher := sha256.New()
-
-    // Write the string to the hash object
-    _, err := hasher.Write([]byte(input))
-    if err != nil {
-        return ""
-    }
-
-    // Get the hash sum as a byte slice
-    hashBytes := hasher.Sum(nil)
-
-    // Convert the hash bytes to a hexadecimal string
-    hashHex := hex.EncodeToString(hashBytes)
-	return hashHex
 }

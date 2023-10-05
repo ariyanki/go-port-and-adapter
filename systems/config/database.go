@@ -4,6 +4,8 @@ import (
 	"strconv"
 	"time"
 
+	"go-port-and-adapter/ports/system/dto"
+
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 
@@ -16,21 +18,10 @@ var (
 	DB *gorm.DB
 )
 
-//Database Database
-type Database struct {
-	Host      string
-	User      string
-	Password  string
-	DBName    string
-	DBNumber  int
-	Port      int
-	DebugMode bool
-}
-
 // LoadDBConfig load database configuration
-func LoadDBConfig(name string) Database {
+func LoadDBConfig(name string) dto.Database {
 	db := viper.Sub("database." + name)
-	conf := Database{
+	conf := dto.Database{
 		Host:      db.GetString("host"),
 		User:      db.GetString("user"),
 		Password:  db.GetString("password"),
