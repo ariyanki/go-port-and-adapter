@@ -9,6 +9,6 @@ type IUserHandler interface {
 	//CreateUser insert new data
 	CreateUser(user dto.CreateUserDto) error
 
-	//ReadData get data by ID
-	ReadData(ID string) (dto.UserDto, error)
+	//GetUserById get data by ID
+	GetUserById(ID string) (dto.UserDto, error)
 }

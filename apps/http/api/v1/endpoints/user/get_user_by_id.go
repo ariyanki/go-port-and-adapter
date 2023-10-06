@@ -12,28 +12,28 @@ import (
 // @Tags         user
 // @Param Authorization header string true "Authorization header"
 // @Param id   path int true "User ID"
-// @Success 200 {object} user.ReadDataResponseUser
+// @Success 200 {object} user.GetUserByIdResponseUser
 // @Router /user/{id} [get]
-func (endpoint *UserEndpoint) ReadData(c echo.Context) error {
+func (endpoint *UserEndpoint) GetUserById(c echo.Context) error {
 	id := c.Param("id")
 
-	user, err := endpoint.userHandler.ReadData(id)
+	user, err := endpoint.userHandler.GetUserById(id)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err)
 	}
 
 	b, _ := json.Marshal(user)
-	readDataResponse := ReadDataResponseUser{
+	getUserByIdResponse := GetUserByIdResponseUser{
 		ID:    user.ID,
 		Username:  user.Username,
 		Password: user.Password,
 	}
-	json.Unmarshal(b, &readDataResponse)
+	json.Unmarshal(b, &getUserByIdResponse)
 
-	return c.JSON(http.StatusOK, readDataResponse)
+	return c.JSON(http.StatusOK, getUserByIdResponse)
 }
 
-type ReadDataResponseUser struct {
+type GetUserByIdResponseUser struct {
 	ID    int    `json:"id"`
 	Username  string `json:"username"`
 	Password string `json:"password"`

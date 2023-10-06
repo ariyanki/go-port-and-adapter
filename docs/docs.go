@@ -102,7 +102,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.ReadDataResponseUser"
+                            "$ref": "#/definitions/user.GetUserByIdResponseUser"
                         }
                     }
                 }
@@ -148,7 +148,7 @@ const docTemplate = `{
                 }
             }
         },
-        "user.ReadDataResponseUser": {
+        "user.GetUserByIdResponseUser": {
             "type": "object",
             "properties": {
                 "id": {

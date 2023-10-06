@@ -27,11 +27,11 @@ func API(e *echo.Echo) {
 
 	// Init Endpoint
 	authEndpoint := authEndpoint.New(authHandler)
-	auth := e.Group("/api/v1/auth/signin")
-	auth.POST("", authEndpoint.SignIn)
+	auth := e.Group("/api/v1/auth")
+	auth.POST("/signin", authEndpoint.SignIn)
 	
 	userEndpoint := userEndpoint.New(userHandler)
 	user := e.Group("/api/v1/user")
 	user.POST("", userEndpoint.CreateUser, middleware.JWTWithConfig(config.JwtConfig))
-	user.GET("/:id", userEndpoint.ReadData, middleware.JWTWithConfig(config.JwtConfig))
+	user.GET("/:id", userEndpoint.GetUserById, middleware.JWTWithConfig(config.JwtConfig))
 }

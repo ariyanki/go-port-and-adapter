@@ -25,7 +25,7 @@ definitions:
     - password
     - username
     type: object
-  user.ReadDataResponseUser:
+  user.GetUserByIdResponseUser:
     properties:
       id:
         type: integer
@@ -98,7 +98,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/user.ReadDataResponseUser'
+            $ref: '#/definitions/user.GetUserByIdResponseUser'
       summary: Create User
       tags:
       - user
