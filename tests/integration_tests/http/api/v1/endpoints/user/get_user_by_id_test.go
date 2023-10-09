@@ -1,23 +1,23 @@
 package user_test
 
 import (
-    "testing"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
-	"encoding/json"
+	"testing"
 	"time"
 
-	systemDto "go-port-and-adapter/ports/system/dto"
-	authHandler "go-port-and-adapter/domains/entities/auth"
 	authEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/auth"
+	authHandler "go-port-and-adapter/domains/entities/auth"
+	handlerDto "go-port-and-adapter/ports/domain/dto"
 	repositoryMock "go-port-and-adapter/tests/unit_tests/mocks/adapters/repository/mysql"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	jwt "github.com/dgrijalva/jwt-go"
 )
 
 func TestGetUserById(t *testing.T) {
@@ -28,8 +28,8 @@ func TestGetUserById(t *testing.T) {
 	authHandler := authHandler.New(repository)
 	authApi := authEndpoint.New(authHandler)
 
-	claims := &systemDto.JwtCustomClaims{
-		ID:       1,
+	claims := &handlerDto.JwtCustomClaims{
+		ID: 1,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 		},
@@ -48,7 +48,7 @@ func TestGetUserById(t *testing.T) {
 		Password: "123456",
 	})
 
-	t.Run("Expect get user by id Unauthorized", func(t *testing.T) {		
+	t.Run("Expect get user by id Unauthorized", func(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/auth/signin", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(echo.HeaderAuthorization, "Bearer 223434")
@@ -67,7 +67,7 @@ func TestGetUserById(t *testing.T) {
 		req.Header.Set(echo.HeaderAuthorization, "Bearer "+signToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
-		
+
 		if assert.NoError(t, h(c)) {
 			assert.Equal(t, http.StatusOK, rec.Code)
 		}
