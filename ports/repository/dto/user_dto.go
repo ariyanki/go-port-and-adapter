@@ -36,6 +36,6 @@ type (
 		Address	string	`json:"address"`
 		MerchantId	int	`json:"merchant_id"`
 		AppleLoginId	string	`json:"apple_login_id"`
-		AppleLoginData	string	`json:"apple_login_data`
+		AppleLoginData	string	`json:"apple_login_data"`
 	}
 )
