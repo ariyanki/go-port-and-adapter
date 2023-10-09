@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"go-port-and-adapter/systems/config"
+	
+	"go-port-and-adapter/apps/http/api/v1/middleware"
 
 	authEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/auth"
 	userEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/user"
@@ -12,13 +13,12 @@ import (
 	repository "go-port-and-adapter/adapters/repository/mysql"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	echoMiddleware "github.com/labstack/echo/v4/middleware"
 )
 
 func API(e *echo.Echo) {
-
 	// Init Repository
-	db := config.DB
+	db := repository.MysqlConnect("mysql_iam")
 	userRepository := repository.NewUserRepository(db)
 
 	// Init Handler
@@ -32,6 +32,6 @@ func API(e *echo.Echo) {
 	
 	userEndpoint := userEndpoint.New(userHandler)
 	user := e.Group("/api/v1/user")
-	user.POST("", userEndpoint.CreateUser, middleware.JWTWithConfig(config.JwtConfig))
-	user.GET("/:id", userEndpoint.GetUserById, middleware.JWTWithConfig(config.JwtConfig))
+	user.POST("", userEndpoint.CreateUser, echoMiddleware.JWTWithConfig(middleware.JwtConfig))
+	user.GET("/:id", userEndpoint.GetUserById, echoMiddleware.JWTWithConfig(middleware.JwtConfig))
 }

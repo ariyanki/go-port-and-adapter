@@ -4,7 +4,6 @@ import (
 	"time"
 
 	handlerDto "go-port-and-adapter/ports/domain/dto"
-	systemDto "go-port-and-adapter/ports/system/dto"
 	domainError "go-port-and-adapter/ports/domain/constants/error"
 	repoError "go-port-and-adapter/ports/repository/constants/error"
 	"go-port-and-adapter/ports/repository/constants/user_status"
@@ -29,7 +28,7 @@ func (s *authHandler) SignIn(signInRequest handlerDto.SignInRequest) (handlerDto
 	}
 
 	// Set custom claims
-	claims := &systemDto.JwtCustomClaims{
+	claims := &handlerDto.JwtCustomClaims{
 		user.ID,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),

@@ -2,7 +2,7 @@
 	"port": "7777",
 	"jwtSign": "secret",
 	"database": {
-		"mysql": {
+		"mysql_iam": {
 			"driver": "mysql",
 			"host": "localhost",
 			"user": "root",

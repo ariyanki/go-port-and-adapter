@@ -36,7 +36,7 @@ func init() {
 		dir := ""
 		if viper.Get("env") == "testing" {
 			if viper.Get("env") == nil {
-				config.LoadEnvVars()
+				config.Load()
 			}
 			dir = viper.GetString("app_path")
 		} else {

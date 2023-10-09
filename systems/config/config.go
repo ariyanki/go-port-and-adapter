@@ -10,13 +10,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func init() {
-	// set config based on env
-	LoadEnvVars()
-	OpenDbPool()
-}
-
-func LoadEnvVars() {
+func Load() {
 	var AppPath string
 	gopath := os.Getenv("GOPATH")
 	if gopath == "" {

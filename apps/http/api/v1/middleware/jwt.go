@@ -1,11 +1,12 @@
-package config
+package middleware
 
 import (
 	"net/http"
 
+	"go-port-and-adapter/systems/config"
+
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
-	"go-port-and-adapter/ports/system/dto"
 	"github.com/labstack/echo/v4"
 )
 
@@ -13,8 +14,8 @@ import (
 var JwtConfig middleware.JWTConfig
 
 func init() {
+	config.Load()
 	JwtConfig = middleware.JWTConfig{
-		Claims:     &dto.JwtCustomClaims{},
 		SigningKey: []byte(viper.GetString("jwtSign")),
 		ErrorHandler: func(err error) error {
             return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized: "+err.Error())

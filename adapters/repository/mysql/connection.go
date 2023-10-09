@@ -1,10 +1,10 @@
-package config
+package mysql
 
 import (
 	"strconv"
 	"time"
 
-	"go-port-and-adapter/ports/system/dto"
+	"go-port-and-adapter/systems/config"
 
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
@@ -13,31 +13,45 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-var (
-	//DB DB
-	DB *gorm.DB
-)
+//Database Database
+type Database struct {
+	Host      string
+	User      string
+	Password  string
+	DBName    string
+	DBNumber  int
+	Port      int
+	Pool 	  DbPool
+	DebugMode bool
+}
+
+type DbPool struct {
+	MaxOpenConns  int
+	MaxIdleConns  int
+	MaxLifetime  time.Duration
+}
+
+func init() {
+	config.Load()
+}
 
 // LoadDBConfig load database configuration
-func LoadDBConfig(name string) dto.Database {
+func LoadDBConfig(name string) Database {
 	db := viper.Sub("database." + name)
-	conf := dto.Database{
+	conf := Database{
 		Host:      db.GetString("host"),
 		User:      db.GetString("user"),
 		Password:  db.GetString("password"),
 		DBName:    db.GetString("db_name"),
 		Port:      db.GetInt("port"),
+		Pool: 	   DbPool{
+			MaxOpenConns:  db.GetInt("maxOpenConns"),
+			MaxIdleConns:  db.GetInt("maxIdleConns"),
+			MaxLifetime:  db.GetDuration("maxLifetime"),
+		},
 		DebugMode: db.GetBool("debug"),
 	}
 	return conf
-}
-
-func OpenDbPool() {
-	DB = MysqlConnect("mysql")
-	pool := viper.Sub("database.mysql.pool")
-	DB.DB().SetMaxOpenConns(pool.GetInt("maxOpenConns"))
-	DB.DB().SetMaxIdleConns(pool.GetInt("maxIdleConns"))
-	DB.DB().SetConnMaxLifetime(pool.GetDuration("maxLifetime") * time.Second)
 }
 
 // MysqlConnect connect to mysql using config name. return *gorm.DB incstance
@@ -52,6 +66,10 @@ func MysqlConnect(configName string) *gorm.DB {
 	if mysql.DebugMode {
 		return connection.Debug()
 	}
+
+	connection.DB().SetMaxOpenConns(mysql.Pool.MaxOpenConns)
+	connection.DB().SetMaxIdleConns(mysql.Pool.MaxIdleConns)
+	connection.DB().SetConnMaxLifetime(mysql.Pool.MaxLifetime * time.Second)
 
 	return connection
 }
