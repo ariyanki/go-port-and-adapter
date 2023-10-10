@@ -20,7 +20,7 @@ func init() {
 // MysqlConnect connect to mysql using config name. return *gorm.DB incstance
 func MysqlConnect(configName string) *gorm.DB {
 	mysql := viper.Sub("database." + configName)
-	connection, err := gorm.Open("mysql", mysql.GetString("user")+":"+mysql.GetString("password")+"@tcp("+mysql.GetString("host")+":"+strconv.Itoa(mysql.GetInt("host"))+")/"+mysql.GetString("db_name")+"?charset=utf8&parseTime=True&loc=Local")
+	connection, err := gorm.Open("mysql", mysql.GetString("user")+":"+mysql.GetString("password")+"@tcp("+mysql.GetString("host")+":"+strconv.Itoa(mysql.GetInt("port"))+")/"+mysql.GetString("db_name")+"?charset=utf8&parseTime=True&loc=Local")
 	// enable debug
 	if err != nil {
 		panic(err)

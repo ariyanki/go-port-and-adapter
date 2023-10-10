@@ -2,9 +2,13 @@ package auth
 
 import (
 	"net/http"
+	"time"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
-	
+	"github.com/spf13/viper"
+
+	"go-port-and-adapter/apps/http/api/v1/middleware"
 	handlerDto "go-port-and-adapter/ports/domain/dto"
 	"go-port-and-adapter/systems/validator"
 )
@@ -27,7 +31,7 @@ func (endpoint *AuthEndpoint) SignIn(c echo.Context) error {
 	}
 
 	signInHandlerRequest := handlerDto.SignInRequest{
-		Username:  signInRequest.Username,
+		Username: signInRequest.Username,
 		Password: signInRequest.Password,
 	}
 
@@ -36,18 +40,35 @@ func (endpoint *AuthEndpoint) SignIn(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, err.Error())
 	}
 
+	// Set custom claims
+	claims := &middleware.JwtCustomClaims{
+		signInHandlerResponse.ID,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+		},
+	}
+
+	// Create token with claims
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Generate encoded token and send it as response.
+	t, err := token.SignedString([]byte(viper.GetString("jwtSign")))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
 	signInResponse := SignInResponse{
-		Token:  signInHandlerResponse.Token,
+		Token: t,
 	}
 
 	return c.JSON(http.StatusOK, signInResponse)
 }
 
 type SignInRequest struct {
-	Username  string `json:"username" validate:"required"`
+	Username string `json:"username" validate:"required"`
 	Password string `json:"password" validate:"required"`
 }
 
 type SignInResponse struct {
-	Token  string `json:"token"`
+	Token string `json:"token"`
 }
