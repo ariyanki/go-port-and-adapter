@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"go-port-and-adapter/systems/config"
 	"net/http"
 
-	"github.com/golang-jwt/jwt"
+	"go-port-and-adapter/systems/config"
+
+	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
@@ -13,7 +14,7 @@ import (
 // JwtCustomClaims JwtCustomClaims
 type JwtCustomClaims struct {
 	ID int `json:"id"`
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 }
 
 // JwtConfig JwtConfig
@@ -22,6 +23,9 @@ var JwtConfig echojwt.Config
 func init() {
 	config.Load()
 	JwtConfig = echojwt.Config{
+		NewClaimsFunc: func(c echo.Context) jwt.Claims {
+			return new(JwtCustomClaims)
+		},
 		SigningKey: []byte(viper.GetString("jwtSign")),
 		ErrorHandler: func(c echo.Context, err error) error {
 			if err != nil {

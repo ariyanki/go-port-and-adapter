@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 
@@ -43,8 +43,8 @@ func (endpoint *AuthEndpoint) SignIn(c echo.Context) error {
 	// Set custom claims
 	claims := &middleware.JwtCustomClaims{
 		signInHandlerResponse.ID,
-		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
 		},
 	}
 
