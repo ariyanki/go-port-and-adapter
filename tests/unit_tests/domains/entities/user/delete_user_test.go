@@ -16,13 +16,13 @@ func TestDeleteUser(t *testing.T) {
 	repository.On("DeleteUser", mock.Anything)
 	storage := storageMock.NewStorageManager()
 
-	t.Run("Expect Get User Success", func(t *testing.T) {
+	t.Run("Expect Delete User Success", func(t *testing.T) {
 		userHandler := userHandler.New(repository, storage)
 		err := userHandler.DeleteUser(1)
 		assert.Nil(t, err)
 	})
 
-	t.Run("Expect Get User not Found", func(t *testing.T) {
+	t.Run("Expect Delete User not Found", func(t *testing.T) {
 		userHandler := userHandler.New(repository, storage)
 		err := userHandler.DeleteUser(123)
 		assert.NotNil(t, err)

@@ -62,7 +62,7 @@ type UpdateUserRequest struct {
 	Phonenumber   string    `json:"phonenumber"  validate:"required"`
 	Email         string    `json:"email"  validate:"required"`
 	PhotoFilename string    `json:"photo_filename"`
-	PhotoData     string    `json:"photo_filedata"`
+	PhotoFiledata string    `json:"photo_filedata"`
 	Birthdate     time.Time `json:"birthdate"  validate:"required"`
 	Gender        string    `json:"gender"  validate:"required"`
 	City          string    `json:"city"  validate:"required"`

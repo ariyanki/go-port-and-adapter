@@ -37,4 +37,7 @@ func API(e *echo.Echo) {
 	user := e.Group("/api/v1/user")
 	user.POST("", userEndpoint.CreateUser, echojwt.WithConfig(middleware.JwtConfig))
 	user.GET("/:id", userEndpoint.GetUserById, echojwt.WithConfig(middleware.JwtConfig))
+	user.PUT("/:id", userEndpoint.UpdateUser, echojwt.WithConfig(middleware.JwtConfig))
+	user.DELETE("/:id", userEndpoint.DeleteUser, echojwt.WithConfig(middleware.JwtConfig))
+	user.POST("/list", userEndpoint.ListUser, echojwt.WithConfig(middleware.JwtConfig))
 }
