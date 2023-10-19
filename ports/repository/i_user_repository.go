@@ -4,14 +4,24 @@ import (
 	"go-port-and-adapter/ports/repository/dto"
 )
 
-// Repository is outbound port
+// IUserRepository
 type IUserRepository interface {
-	//CreateUser insert new data
-	CreateUser(user dto.UserDto) error
 
-	//GetUserByID get data by ID
-	GetUserByID(ID string) (dto.UserDto, error)
+	// GetUserByUsername
+	GetUserByUsername(username string, user *dto.UserDto) error
 
-	//GetUserByUsername get data by Username
-	GetUserByUsername(username string) (dto.UserDto, error)
+	// CreateUser
+	CreateUser(user dto.CreateUserDto) error
+
+	// GetUserById
+	GetUserById(id int, user *dto.UserDto) error
+
+	// UpdateUser
+	UpdateUser(user dto.UpdateUserDto) error
+
+	// DeleteUser
+	DeleteUser(id int) error
+
+	// ListUser
+	ListUser(listRequest dto.ListRequestDto, users *[]dto.UserDto) error
 }

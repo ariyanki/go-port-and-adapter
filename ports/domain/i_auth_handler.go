@@ -4,8 +4,8 @@ import (
 	"go-port-and-adapter/ports/domain/dto"
 )
 
-// Handler is inbound port
+// IAuthHandler
 type IAuthHandler interface {
-	//SignIn signin process
-	SignIn(signInRequest dto.SignInRequest) (dto.SignInResponse, error)
+	// SignIn
+	SignIn(signInRequest dto.SignInRequest, signInResponse *dto.SignInResponse) error
 }

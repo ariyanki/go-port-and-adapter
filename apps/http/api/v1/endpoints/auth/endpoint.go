@@ -13,4 +13,3 @@ func New(authHandler handlerPort.IAuthHandler) *AuthEndpoint {
 		authHandler,
 	}
 }
-

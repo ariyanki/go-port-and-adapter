@@ -1,14 +1,14 @@
 package auth_test
 
 import (
-    "testing"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
-	"encoding/json"
+	"testing"
 
-	authHandler "go-port-and-adapter/domains/entities/auth"
 	authEndpoint "go-port-and-adapter/apps/http/api/v1/endpoints/auth"
+	authHandler "go-port-and-adapter/domains/entities/auth"
 	repositoryMock "go-port-and-adapter/tests/unit_tests/mocks/adapters/repository/mysql"
 
 	"github.com/labstack/echo/v4"
@@ -35,7 +35,7 @@ func TestSignIn(t *testing.T) {
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
-		
+
 		if assert.NoError(t, authApi.SignIn(c)) {
 			assert.Equal(t, http.StatusOK, rec.Code)
 		}

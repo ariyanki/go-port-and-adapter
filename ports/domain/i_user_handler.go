@@ -4,11 +4,20 @@ import (
 	"go-port-and-adapter/ports/domain/dto"
 )
 
-// Handler is inbound port
+// IUserHandler
 type IUserHandler interface {
-	//CreateUser insert new data
-	CreateUser(user dto.CreateUserDto) error
+	// CreateUser
+	CreateUser(request dto.CreateUserDto) error
 
-	//GetUserById get data by ID
-	GetUserById(ID string) (dto.UserDto, error)
+	// GetUserById
+	GetUserById(id int, response *dto.UserDto) error
+
+	// UpdateUser
+	UpdateUser(request dto.UpdateUserDto) error
+
+	// DeleteUser
+	DeleteUser(id int) error
+
+	// ListUser
+	ListUser(request dto.ListRequestDto, response *[]dto.UserDto) error
 }

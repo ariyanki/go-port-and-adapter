@@ -34,9 +34,8 @@ func (endpoint *AuthEndpoint) SignIn(c echo.Context) error {
 		Username: signInRequest.Username,
 		Password: signInRequest.Password,
 	}
-
-	signInHandlerResponse, err := endpoint.authHandler.SignIn(signInHandlerRequest)
-	if err != nil {
+	var signInHandlerResponse handlerDto.SignInResponse
+	if err := endpoint.authHandler.SignIn(signInHandlerRequest, &signInHandlerResponse); err != nil {
 		return c.JSON(http.StatusUnauthorized, err.Error())
 	}
 

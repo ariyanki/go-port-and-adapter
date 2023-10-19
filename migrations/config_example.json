@@ -1,0 +1,10 @@
+{
+    "jwtSign": "secret",
+    "mysql": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "db_name": "template_user_management",
+        "port": 3306
+    }
+}

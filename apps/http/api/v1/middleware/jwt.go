@@ -3,8 +3,6 @@ package middleware
 import (
 	"net/http"
 
-	"go-port-and-adapter/systems/config"
-
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -21,7 +19,6 @@ type JwtCustomClaims struct {
 var JwtConfig echojwt.Config
 
 func init() {
-	config.Load()
 	JwtConfig = echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(JwtCustomClaims)

@@ -1,12 +1,15 @@
 package user
 
-
 import (
+	"go-port-and-adapter/apps/http/api/v1/middleware"
+	handlerDto "go-port-and-adapter/ports/domain/dto"
+	"time"
+
+	"go-port-and-adapter/systems/automap"
+	"go-port-and-adapter/systems/validator"
 	"net/http"
 
-	"go-port-and-adapter/systems/validator"
-	handlerDto "go-port-and-adapter/ports/domain/dto"
-
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -18,30 +21,43 @@ import (
 // @Success 200
 // @Router /user [post]
 func (endpoint *UserEndpoint) CreateUser(c echo.Context) error {
-	createRequest := new(CreateUserRequest)
+	// Get JWT claims
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*middleware.JwtCustomClaims)
 
-	if err := c.Bind(createRequest); err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err)
+	request := new(CreateUserRequest)
+
+	if err := c.Bind(request); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 
-	if err := validator.GetValidator().Struct(createRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+	if err := validator.GetValidator().Struct(request); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	user := handlerDto.CreateUserDto{
-		Username:  createRequest.Username,
-		Password: createRequest.Password,
+	var requestHandler handlerDto.CreateUserDto
+	if err := automap.AutoMap(request, &requestHandler); err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	if err := endpoint.userHandler.CreateUser(user); err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err)
+	requestHandler.CreatedBy = claims.ID
+
+	if err := endpoint.userHandler.CreateUser(requestHandler); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, "")
 }
 
-
 type CreateUserRequest struct {
-	Username  string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Username      string    `json:"username"  validate:"required"`
+	Fullname      string    `json:"fullname"  validate:"required"`
+	Phonenumber   string    `json:"phonenumber"  validate:"required"`
+	Email         string    `json:"email"  validate:"required"`
+	PhotoFilename string    `json:"photo_filename"`
+	PhotoFiledata string    `json:"photo_filedata"`
+	Birthdate     time.Time `json:"birthdate"  validate:"required"`
+	Gender        string    `json:"gender"  validate:"required"`
+	City          string    `json:"city"  validate:"required"`
+	Address       string    `json:"address"  validate:"required"`
 }

@@ -75,13 +75,45 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/{id}": {
-            "get": {
-                "description": "Create User",
+        "/user/list": {
+            "post": {
+                "description": "List User",
                 "tags": [
                     "user"
                 ],
-                "summary": "Create User",
+                "summary": "List User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "List User Request Body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.ListUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "description": "Get User by ID",
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get User by ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -102,8 +134,73 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.GetUserByIdResponseUser"
+                            "$ref": "#/definitions/user.GetUserByIdResponse"
                         }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update User",
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update User Request Body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete User",
+                "tags": [
+                    "user"
+                ],
+                "summary": "Delete User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             }
@@ -136,11 +233,41 @@ const docTemplate = `{
         "user.CreateUserRequest": {
             "type": "object",
             "required": [
-                "password",
+                "address",
+                "birthdate",
+                "city",
+                "email",
+                "fullname",
+                "gender",
+                "phonenumber",
                 "username"
             ],
             "properties": {
-                "password": {
+                "address": {
+                    "type": "string"
+                },
+                "birthdate": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "phonenumber": {
+                    "type": "string"
+                },
+                "photo_filedata": {
+                    "type": "string"
+                },
+                "photo_filename": {
                     "type": "string"
                 },
                 "username": {
@@ -148,13 +275,102 @@ const docTemplate = `{
                 }
             }
         },
-        "user.GetUserByIdResponseUser": {
+        "user.GetUserByIdResponse": {
             "type": "object",
             "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "capacity": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_fullname": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "password": {
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_fullname": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.ListUserRequest": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "order_by": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.UpdateUserRequest": {
+            "type": "object",
+            "required": [
+                "address",
+                "birthdate",
+                "city",
+                "email",
+                "fullname",
+                "gender",
+                "phonenumber",
+                "username"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "birthdate": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "phonenumber": {
+                    "type": "string"
+                },
+                "photo_filedata": {
+                    "type": "string"
+                },
+                "photo_filename": {
                     "type": "string"
                 },
                 "username": {
@@ -171,8 +387,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:7777",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "Swagger Identity and Access Management API",
-	Description:      "This is a Identity and Access Management API server.",
+	Title:            "Swagger Go Port and Adapter API",
+	Description:      "This is a Go Port and Adapter API server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -13,4 +13,3 @@ func New(userHandler handlerPort.IUserHandler) *UserEndpoint {
 		userHandler,
 	}
 }
-

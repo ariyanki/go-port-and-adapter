@@ -17,28 +17,111 @@ definitions:
     type: object
   user.CreateUserRequest:
     properties:
-      password:
+      address:
+        type: string
+      birthdate:
+        type: string
+      city:
+        type: string
+      email:
+        type: string
+      fullname:
+        type: string
+      gender:
+        type: string
+      phonenumber:
+        type: string
+      photo_filedata:
+        type: string
+      photo_filename:
         type: string
       username:
         type: string
     required:
-    - password
+    - address
+    - birthdate
+    - city
+    - email
+    - fullname
+    - gender
+    - phonenumber
     - username
     type: object
-  user.GetUserByIdResponseUser:
+  user.GetUserByIdResponse:
     properties:
+      address:
+        type: string
+      capacity:
+        type: integer
+      created_at:
+        type: string
+      created_by_fullname:
+        type: string
+      deleted_at:
+        type: string
       id:
         type: integer
-      password:
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+      updated_by_fullname:
+        type: string
+    type: object
+  user.ListUserRequest:
+    properties:
+      filter:
+        additionalProperties:
+          type: string
+        type: object
+      order_by:
+        additionalProperties:
+          type: string
+        type: object
+      page:
+        type: integer
+      page_size:
+        type: integer
+    type: object
+  user.UpdateUserRequest:
+    properties:
+      address:
+        type: string
+      birthdate:
+        type: string
+      city:
+        type: string
+      email:
+        type: string
+      fullname:
+        type: string
+      gender:
+        type: string
+      phonenumber:
+        type: string
+      photo_filedata:
+        type: string
+      photo_filename:
         type: string
       username:
         type: string
+    required:
+    - address
+    - birthdate
+    - city
+    - email
+    - fullname
+    - gender
+    - phonenumber
+    - username
     type: object
 host: localhost:7777
 info:
   contact: {}
-  description: This is a Identity and Access Management API server.
-  title: Swagger Identity and Access Management API
+  description: This is a Go Port and Adapter API server.
+  title: Swagger Go Port and Adapter API
   version: "1.0"
 paths:
   /auth/signin:
@@ -81,8 +164,27 @@ paths:
       tags:
       - user
   /user/{id}:
+    delete:
+      description: Delete User
+      parameters:
+      - description: Authorization header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Delete User
+      tags:
+      - user
     get:
-      description: Create User
+      description: Get User by ID
       parameters:
       - description: Authorization header
         in: header
@@ -98,8 +200,54 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/user.GetUserByIdResponseUser'
-      summary: Create User
+            $ref: '#/definitions/user.GetUserByIdResponse'
+      summary: Get User by ID
+      tags:
+      - user
+    put:
+      description: Update User
+      parameters:
+      - description: Authorization header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update User Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserRequest'
+      responses:
+        "200":
+          description: OK
+      summary: Update User
+      tags:
+      - user
+  /user/list:
+    post:
+      description: List User
+      parameters:
+      - description: Authorization header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: List User Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.ListUserRequest'
+      responses:
+        "200":
+          description: OK
+      summary: List User
       tags:
       - user
 swagger: "2.0"

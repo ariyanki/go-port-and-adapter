@@ -10,18 +10,22 @@ import (
 	userHandler "go-port-and-adapter/domains/entities/user"
 
 	repository "go-port-and-adapter/adapters/repository/mysql"
+	storage "go-port-and-adapter/adapters/storage"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 )
 
 func API(e *echo.Echo) {
-	// Init Repository
+	// Init Repository Adapter
 	db := repository.MysqlConnect("mysql_iam")
 	userRepository := repository.NewUserRepository(db)
 
+	// Init Storage Adapter
+	storageManager := storage.NewStorageManager()
+
 	// Init Handler
-	userHandler := userHandler.New(userRepository)
+	userHandler := userHandler.New(userRepository, storageManager)
 	authHandler := authHandler.New(userRepository)
 
 	// Init Endpoint

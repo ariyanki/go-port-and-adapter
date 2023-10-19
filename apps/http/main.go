@@ -13,14 +13,14 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
-	"github.com/swaggo/echo-swagger"
+	echoSwagger "github.com/swaggo/echo-swagger"
 
 	_ "go-port-and-adapter/docs"
 )
 
-// @title Swagger Identity and Access Management API
+// @title Swagger Go Port and Adapter API
 // @version 1.0
-// @description This is a Identity and Access Management API server.
+// @description This is a Go Port and Adapter API server.
 
 // @host localhost:7777
 // @BasePath /api/v1
