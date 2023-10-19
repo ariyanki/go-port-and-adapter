@@ -6,8 +6,6 @@ import (
 
 	"time"
 
-	"go-port-and-adapter/systems/config"
-
 	"os"
 	"strings"
 
@@ -33,15 +31,7 @@ func init() {
 
 	// default app log dir setting
 	if !strings.HasPrefix(logdir, "/") {
-		dir := ""
-		if viper.Get("env") == "testing" {
-			if viper.Get("env") == nil {
-				config.Load()
-			}
-			dir = viper.GetString("app_path")
-		} else {
-			dir, _ = os.Getwd()
-		}
+		dir, _ := os.Getwd()
 		logdir = dir + "/logs"
 	}
 

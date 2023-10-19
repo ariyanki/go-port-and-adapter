@@ -3,7 +3,6 @@ package storage
 import (
 	"encoding/base64"
 	"go-port-and-adapter/ports/storage/dto"
-	"go-port-and-adapter/systems/config"
 	"os"
 
 	"github.com/spf13/viper"
@@ -18,7 +17,6 @@ func NewStorageManager() *storageManager {
 }
 
 func (db *storageManager) StoreUserPhoto(userPhoto dto.UserPhotoDto) error {
-	config.Load()
 	filedir := viper.GetString("filedir")
 
 	// Decode the base64-encoded file data

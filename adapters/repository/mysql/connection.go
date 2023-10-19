@@ -4,18 +4,12 @@ import (
 	"strconv"
 	"time"
 
-	"go-port-and-adapter/systems/config"
-
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 
 	//driver
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
-
-func init() {
-	config.Load()
-}
 
 // MysqlConnect connect to mysql using config name. return *gorm.DB incstance
 func MysqlConnect(configName string) *gorm.DB {

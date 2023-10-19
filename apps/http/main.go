@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"go-port-and-adapter/apps/http/api/v1/routes"
+	"go-port-and-adapter/systems/config"
 	"go-port-and-adapter/systems/logger"
 
 	"github.com/labstack/echo/v4"
@@ -26,7 +27,7 @@ import (
 // @BasePath /api/v1
 
 func main() {
-
+	config.Load()
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(

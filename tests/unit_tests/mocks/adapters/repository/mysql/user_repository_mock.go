@@ -33,34 +33,43 @@ func (db *userRepository) GetUserByUsername(username string, user *dto.UserDto) 
 
 func (db *userRepository) CreateUser(user dto.CreateUserDto) error {
 	db.Called(user)
+	if user.Username == "failed" {
+		return errors.New("failed test")
+	}
 	return nil
 }
 
 func (db *userRepository) GetUserById(id int, user *dto.UserDto) error {
 	db.Called(id)
 	if id == 123 {
-		return errors.New("Not Found")
+		return errors.New("not found")
 	}
 
-	user.Status = user_status.Active
-	user.Password = "26fce84bdf52dced60502b2f126140d3edfbd5b0d7c6586bb79b5cb45680debf"
-	user.PasswordSalt = "e02e8140-06a1-45ce-9240-b610ee58add4"
+	user.Username = "username"
+	user.Fullname = "fullname"
 
 	return nil
 }
 
 func (db *userRepository) UpdateUser(user dto.UpdateUserDto) error {
 	db.Called(user)
+	if user.Username == "failed" {
+		return errors.New("failed Test")
+	}
 	return nil
 }
 
 func (db *userRepository) DeleteUser(id int) error {
 	db.Called(id)
+	if id == 123 {
+		return errors.New("not found")
+	}
 	return nil
 }
 
 func (db *userRepository) ListUser(listRequest dto.ListRequestDto, users *[]dto.UserDto) error {
-	db.Called(listRequest)
+	*users = append(*users, dto.UserDto{
+		Username: "newUser",
+	})
 	return nil
-
 }
